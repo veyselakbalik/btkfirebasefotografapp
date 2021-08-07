@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1073081458811",
+    "project_id": "fotografapp-1ede9",
+    "storage_bucket": "fotografapp-1ede9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073081458811:android:b4053f0f99903d584982de",
+        "android_client_info": {
+          "package_name": "com.veyselakbalik.btkfirebasefotoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1073081458811-2oemusjpri9lp8q98q2gjnmi2g6kh1oi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCctahl-D_ra3Pl6bVJlN2eAFO6H5YWCF0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1073081458811-2oemusjpri9lp8q98q2gjnmi2g6kh1oi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
