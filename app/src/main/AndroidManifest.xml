@@ -10,7 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BTKFirebaseFotoApp">
         <activity
-            android:name=".MainActivity"
+            android:name=".FotografPaylasmaActivity"
+            android:exported="true" />
+        <activity
+            android:name=".HaberlerActivity"
+            android:exported="true" />
+        <activity
+            android:name=".KullaniciActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

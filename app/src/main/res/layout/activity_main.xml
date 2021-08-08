@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".KullaniciActivity">
 
     <EditText
         android:id="@+id/emailText"
@@ -14,6 +14,7 @@
         android:ems="10"
         android:hint="E mail Adresinizi Giriniz"
         android:inputType="textEmailAddress"
+        android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="@+id/passwordText"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,6 +26,7 @@
         android:ems="10"
         android:hint="Şifrenizi Giriniz"
         android:inputType="textPassword"
+        android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="@+id/button"
         app:layout_constraintTop_toBottomOf="@+id/emailText" />
 
