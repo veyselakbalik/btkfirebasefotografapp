@@ -5,15 +5,55 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class HaberlerActivity : AppCompatActivity() {
+    private lateinit var database : FirebaseFirestore
     private lateinit var auth : FirebaseAuth
+
+    var postListesi = ArrayList<Post>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_haberler)
 
         auth = FirebaseAuth.getInstance()
+        database = FirebaseFirestore.getInstance()
+
+        verileriAl()
+    }
+
+    fun verileriAl(){
+        database.collection("Post").orderBy("tarih",Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, exception ->
+            if (exception != null){
+                Toast.makeText(this,exception.localizedMessage,Toast.LENGTH_LONG).show()
+            }else {
+                if (snapshot != null){
+                    if (!snapshot.isEmpty){
+
+                        val documents = snapshot.documents
+
+                        postListesi.clear()
+
+                        for (document in documents){
+                            val kullaniciEmail = document.get("kullaniciemail") as String
+                            val kullaniciYorum = document.get("kullaniciyorum") as String
+                            val gorselUrl = document.get("gorselUrl") as String
+
+                            val indirilenPost = Post(kullaniciEmail,kullaniciYorum,gorselUrl)
+                            postListesi.add(indirilenPost)
+                        }
+
+                    }
+                }
+
+
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
