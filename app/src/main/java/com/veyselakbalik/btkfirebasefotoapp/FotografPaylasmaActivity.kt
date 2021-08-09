@@ -12,8 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -42,7 +44,6 @@ class FotografPaylasmaActivity : AppCompatActivity() {
     fun paylas(view: View){
         //depo işlemleri
         //UUID -> universal unique id
-
         val uuid = UUID.randomUUID()
         val gorselIsmi = "${uuid}.jpg"
 
@@ -52,7 +53,32 @@ class FotografPaylasmaActivity : AppCompatActivity() {
 
         if (secilenGorsel != null){
             gorselReference.putFile(secilenGorsel!!).addOnSuccessListener {
-                println("yüklendi")
+                val yuklenenGorselReference = reference.child("images").child(gorselIsmi)
+                yuklenenGorselReference.downloadUrl.addOnSuccessListener {
+                    val downloadUrl = it.toString()
+                    val guncelKullaniciEmail = auth.currentUser!!.email.toString()
+                    val kullaniciYorumu = yorumText.text.toString()
+                    val tarih = Timestamp.now()
+                    //veritabani islemleri
+
+                    val postHashMap = hashMapOf<String,Any>()
+                    postHashMap.put("gorselUrl",downloadUrl)
+                    postHashMap.put("kullaniciemail",guncelKullaniciEmail)
+                    postHashMap.put("kullaniciyorum",kullaniciYorumu)
+                    postHashMap.put("tarih",tarih)
+
+                    database.collection("Post").add(postHashMap).addOnCompleteListener {
+                        if (it.isSuccessful){
+                            finish()
+                        }
+                    }.addOnFailureListener {
+                        Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG).show()
+                    }
+
+
+                }
+            }.addOnFailureListener {
+                Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG).show()
             }
         }
 
