@@ -1,4 +1,4 @@
-package com.veyselakbalik.btkfirebasefotoapp
+package com.veyselakbalik.btkfirebasefotoapp.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,13 +6,19 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.veyselakbalik.btkfirebasefotoapp.model.Post
+import com.veyselakbalik.btkfirebasefotoapp.R
+import com.veyselakbalik.btkfirebasefotoapp.adapter.HaberRecyclerAdapter
+import kotlinx.android.synthetic.main.activity_haberler.*
 
 class HaberlerActivity : AppCompatActivity() {
     private lateinit var database : FirebaseFirestore
     private lateinit var auth : FirebaseAuth
+    private lateinit var recyclerViewAdapter : HaberRecyclerAdapter
 
     var postListesi = ArrayList<Post>()
 
@@ -24,6 +30,14 @@ class HaberlerActivity : AppCompatActivity() {
         database = FirebaseFirestore.getInstance()
 
         verileriAl()
+
+        var layoutManager = LinearLayoutManager(this)
+        recyclerview.layoutManager = layoutManager
+        recyclerViewAdapter = HaberRecyclerAdapter(postListesi)
+        recyclerview.adapter = recyclerViewAdapter
+
+
+
     }
 
     fun verileriAl(){
@@ -47,7 +61,7 @@ class HaberlerActivity : AppCompatActivity() {
                             val indirilenPost = Post(kullaniciEmail,kullaniciYorum,gorselUrl)
                             postListesi.add(indirilenPost)
                         }
-
+                        recyclerViewAdapter.notifyDataSetChanged()
                     }
                 }
 
@@ -65,11 +79,11 @@ class HaberlerActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.fotograf_paylas){
             //foto paylaşma aktivite inflate
-            val intent = Intent(this,FotografPaylasmaActivity::class.java)
+            val intent = Intent(this, FotografPaylasmaActivity::class.java)
             startActivity(intent)
         }else if (item.itemId == R.id.cikis_yap){
             auth.signOut()
-            val intent = Intent(this,KullaniciActivity::class.java)
+            val intent = Intent(this, KullaniciActivity::class.java)
             startActivity(intent)
             finish()
         }
